@@ -97,20 +97,7 @@ data/
 
 ## Training
 
-### CIRR
-
-```bash
-cd src
-CUDA_VISIBLE_DEVICES=<device_id> python train.py --dataset cirr --batch_size 16 --loss_weight 100
-```
-
-### FashionIQ
-
-```bash
-cd src
-CUDA_VISIBLE_DEVICES=<device_id> python train.py --dataset dress --batch_size 16 --loss_weight 10 --lr 1e-5
-```
-
+The training code will be made public after the paper is accepted. 
 ---
 
 ## Inference
@@ -118,6 +105,9 @@ CUDA_VISIBLE_DEVICES=<device_id> python train.py --dataset dress --batch_size 16
 Download pre-trained checkpoints:
 
 * **CIRR checkpoint**: [Download](https://drive.google.com/file/d/1OJRFIk1TTwd4iRgNNcpBESrNMJuUVo2h/view?usp=drive_link)
+* **dress checkpoint**: [Download](https://drive.google.com/file/d/1tNMtH1SABWU7HsREc297STgkj52gtsFL/view?usp=drive_link)
+* **shirt checkpoint**: [Download](https://drive.google.com/file/d/1r526gq_lHyDxm1fhrTxDwsFzChDNNTf3/view?usp=drive_link)
+* **toptee checkpoint**: [Download](https://1drv.ms/u/c/a76cc9a14c451e3b/EatrK0L9tc9IqboXxSN76DcBwIoXtuDosRsMkn7XRWiFeg?e=t2ZxuS)
   → Place in the `checkpoints/` directory
 
 ### CIRR Inference
