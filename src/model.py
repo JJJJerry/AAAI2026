@@ -59,7 +59,6 @@ class TriCombiner(nn.Module):
     def __init__(self, clip_feature_dim: int, projection_dim: int, hidden_dim: int):
         super(TriCombiner, self).__init__()
 
-        # 三个模态的投影层
         self.text_proj = nn.Linear(clip_feature_dim, projection_dim)
         self.image_proj = nn.Linear(clip_feature_dim, projection_dim)
         self.seg_proj = nn.Linear(clip_feature_dim, projection_dim)
@@ -68,13 +67,12 @@ class TriCombiner(nn.Module):
         self.dropout2 = nn.Dropout(0.5)
         self.dropout3 = nn.Dropout(0.5)
 
-        # 拼接后进行融合
         self.combiner_layer = nn.Linear(projection_dim * 3, hidden_dim)
         self.output_layer = nn.Linear(hidden_dim, clip_feature_dim)
 
         self.dropout_comb = nn.Dropout(0.5)
 
-        # 动态权重：为三个模态分配权重
+     
         self.dynamic_scalar = nn.Sequential(
             nn.Linear(projection_dim * 3, hidden_dim),
             nn.ReLU(),
@@ -116,13 +114,13 @@ class IdentityNonlinearBlock(nn.Module):
         super().__init__()
         self.block = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
-            nn.ReLU(),  # 或 GELU、Swish
+            nn.ReLU(), 
             nn.Linear(hidden_dim, input_dim),
         )
         self.init_identity()
 
     def init_identity(self):
-        # 初始化为接近恒等映射
+
         nn.init.zeros_(self.block[0].weight)
         nn.init.zeros_(self.block[0].bias)
         nn.init.zeros_(self.block[2].weight)
@@ -148,26 +146,7 @@ class CIRModel(nn.Module):
         self.patch_size = 24
         self.seg_feature_proj = IdentityNonlinearBlock(input_dim=1024, hidden_dim=2048)
         self.loss_weight = torch.nn.Parameter(torch.FloatTensor((loss_weight,)))
-    def init_identity_mapping(layer):
-        if isinstance(layer, nn.Sequential):
-            in_proj = layer[0]
-            out_proj = layer[2]
 
-            # 初始化输入层为放大权重（或单位映射）
-            (
-                nn.init.eye_(in_proj.weight)
-                if in_proj.weight.shape[0] == in_proj.weight.shape[1]
-                else nn.init.kaiming_uniform_(in_proj.weight)
-            )
-            nn.init.zeros_(in_proj.bias)
-
-            # 初始化输出层为单位映射
-            (
-                nn.init.eye_(out_proj.weight)
-                if out_proj.weight.shape[0] == out_proj.weight.shape[1]
-                else nn.init.kaiming_uniform_(out_proj.weight)
-            )
-            nn.init.zeros_(out_proj.bias)
     def preprocess_image(self,images):
         if isinstance(images,Image.Image):
             images = [images]
