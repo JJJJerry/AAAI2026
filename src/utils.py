@@ -3,7 +3,7 @@ import os
 from typing import Union, Tuple, List
 
 import torch
-from model import CIRModel
+
 from torch import nn
 from torch.utils.data import DataLoader
 from tqdm import tqdm
@@ -17,7 +17,7 @@ else:
 
 
 def extract_index_features(
-    dataset: Union[CIRRDataset, FashionIQDataset], model: CIRModel
+    dataset: Union[CIRRDataset, FashionIQDataset], model
 ) -> Tuple[torch.tensor, List[str]]:
 
     def collate_fn_local(batch):
