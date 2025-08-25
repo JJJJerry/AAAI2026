@@ -69,22 +69,14 @@ def train_fiq(
     training_path = f"experiments/trained_on_fiq_{training_start}"
     os.makedirs(training_path)
 
-    with open(
-        os.path.join(training_path, "training_hyperparameters.json"), "w+"
-    ) as file:
+    with open(os.path.join(training_path, "training_hyperparameters.json"), "w+") as file:
         json.dump(training_hyper_params, file, sort_keys=True, indent=4)
     fiq_base_path = "../data/fiq/fashionIQ_dataset"
     dress_type = dataset
 
-    relative_val_dataset = FashionIQDataset(
-        fiq_base_path, "val", [dress_type], "relative", model_name
-    )
-    classic_val_dataset = FashionIQDataset(
-        fiq_base_path, "val", [dress_type], "classic", model_name
-    )
-    relative_train_dataset = FashionIQDataset(
-        fiq_base_path, "train", [dress_type], "relative", model_name
-    )
+    relative_val_dataset = FashionIQDataset(fiq_base_path, "val", [dress_type], "relative")
+    classic_val_dataset = FashionIQDataset(fiq_base_path, "val", [dress_type], "classic")
+    relative_train_dataset = FashionIQDataset(fiq_base_path, "train", [dress_type], "relative")
     relative_train_loader = DataLoader(
         dataset=relative_train_dataset,
         batch_size=batch_size,
@@ -216,12 +208,10 @@ def train_cirr(
     ) as file:
         json.dump(training_hyper_params, file, sort_keys=True, indent=4)
     cirr_base_path = "../data/cirr/cirr_dataset"
-    relative_val_dataset = CIRRDataset(cirr_base_path, "val", "relative", model_name)
-    classic_val_dataset = CIRRDataset(cirr_base_path, "val", "classic", model_name)
+    relative_val_dataset = CIRRDataset(cirr_base_path, "val", "relative")
+    classic_val_dataset = CIRRDataset(cirr_base_path, "val", "classic")
 
-    relative_train_dataset = CIRRDataset(
-        cirr_base_path, "train", "relative", model_name
-    )
+    relative_train_dataset = CIRRDataset(cirr_base_path, "train", "relative")
 
     relative_train_loader = DataLoader(
         dataset=relative_train_dataset,
